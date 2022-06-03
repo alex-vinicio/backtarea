@@ -5,6 +5,7 @@ import java.util.List;
 import pichincha.com.backtarea.Entity.Cuenta;
 
 public interface CuentaService {
+    // injection of dependencies
     List<Cuenta> getAll();
 
     void eliminarCuentaPorId(Long idCuenta);
