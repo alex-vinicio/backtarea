@@ -1,5 +1,6 @@
 package pichincha.com.backtarea.Repository;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -17,6 +18,8 @@ public interface CuentaRepository extends JpaRepository<Cuenta, Long> {
     Optional<Cuenta> findByIdCuenta(Long idCuenta);
 
     Optional<Cuenta> findByNumeroCuenta(String numeroCuenta);
+
+    ArrayList<Cuenta> findByUsuarioIdUsuario(Long idUsuario);
 
     @Transactional
     void deleteByIdCuenta(Long idCuenta);

@@ -1,12 +1,16 @@
 package pichincha.com.backtarea.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pichincha.com.backtarea.Entity.Cliente;
+import pichincha.com.backtarea.Entity.Cuenta;
 import pichincha.com.backtarea.Entity.Usuario;
+import pichincha.com.backtarea.Repository.CuentaRepository;
 import pichincha.com.backtarea.Repository.UsuarioRepository;
 
 @Service
@@ -14,6 +18,9 @@ public class UsuarioServiceImp implements UsuarioService {
 
     @Autowired
     UsuarioRepository usuarioRepository;
+
+    @Autowired
+    CuentaRepository cuentaRepository;
 
     public List<Usuario> getAll() {
         List<Usuario> listaUsuarios = usuarioRepository.findAll();
@@ -62,12 +69,19 @@ public class UsuarioServiceImp implements UsuarioService {
 
     }
 
-    public Usuario getUsuarioById(Long idUsuario) {
+    public Cliente<Cuenta> getUsuarioById(Long idUsuario) {
         Optional<Usuario> usuarioEncontrado = usuarioRepository.findById(idUsuario);
+
         if (usuarioEncontrado.isPresent()) {
-            return usuarioEncontrado.get();
+            ArrayList<Cuenta> listaCuentas = cuentaRepository.findByUsuarioIdUsuario(idUsuario);
+
+            Cliente<Cuenta> obj = new Cliente<Cuenta>();
+            obj.setEntities1(listaCuentas);
+            obj.setEntities2(usuarioEncontrado.get());
+            return obj;
         } else {
             return null;
         }
     }
+
 }

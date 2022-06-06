@@ -1,7 +1,10 @@
 package pichincha.com.backtarea.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import pichincha.com.backtarea.Entity.Cliente;
+import pichincha.com.backtarea.Entity.Cuenta;
 import pichincha.com.backtarea.Entity.Usuario;
 
 public interface UsuarioService {
@@ -14,6 +17,6 @@ public interface UsuarioService {
 
     Usuario updateUsuario(Long idUsuario, Usuario usuario);
 
-    Usuario getUsuarioById(Long idUsuario);
+    Cliente<Cuenta> getUsuarioById(Long idUsuario);
 
 }
