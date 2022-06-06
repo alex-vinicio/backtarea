@@ -1,5 +1,6 @@
 package pichincha.com.backtarea.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pichincha.com.backtarea.Entity.Cuenta;
@@ -15,5 +16,7 @@ public interface CuentaService {
     Cuenta updateCuenta(Long idCuenta, Cuenta cuenta);
 
     Cuenta getCuentaById(Long idCuenta);
+
+    ArrayList<Cuenta> getCuentasByUsuario(Long idUsuario);
 
 }

@@ -25,10 +25,21 @@ public class Cuenta {
     private String monedaCuenta;
     private String SaldoDeuda;
 
+    // relacion con la clase cuenta para generar el JSON correctamente
     @ManyToOne
     @JoinColumn(name = "idUsuario")
     private Usuario usuario;
 
+    // Sobreescritura de ToString
+    @Override
+    public String toString() {
+        return "Cuenta [SaldoDeuda=" + SaldoDeuda + ", estadoCuenta=" + estadoCuenta + ", fechaCreacionCuenta="
+                + fechaCreacionCuenta + ", idCuenta=" + idCuenta + ", monedaCuenta=" + monedaCuenta + ", numeroCuenta="
+                + numeroCuenta + ", saldoCuenta=" + saldoCuenta + ", tipoCuenta=" + tipoCuenta + ", usuario=" + usuario
+                + "]";
+    }
+
+    // setters y getters
     public Usuario getUsuario() {
         return usuario;
     }

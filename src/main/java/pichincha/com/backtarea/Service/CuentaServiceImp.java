@@ -1,5 +1,6 @@
 package pichincha.com.backtarea.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -73,5 +74,13 @@ public class CuentaServiceImp implements CuentaService {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public ArrayList<Cuenta> getCuentasByUsuario(Long idUsuario) {
+        // ArrayList<Cuenta> listaCuentas =
+        // cuentaRepository.findByUsuarioIdUsuario(idUsuario);
+        // return listaCuentas;
+        return null;
     }
 }

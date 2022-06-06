@@ -1,11 +1,14 @@
 package pichincha.com.backtarea.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
+import pichincha.com.backtarea.Entity.Cliente;
+import pichincha.com.backtarea.Entity.Cuenta;
 import pichincha.com.backtarea.Entity.Usuario;
 import pichincha.com.backtarea.Service.UsuarioService;
 
@@ -23,12 +26,12 @@ public class UsuarioController {
     }
 
     @GetMapping("/usuario/{id}")
-    public ResponseEntity<Usuario> getUsuarioById(@PathVariable("id") Long idUsuario) {
-        Usuario usuario = usuarioService.getUsuarioById(idUsuario);
+    public ResponseEntity<Cliente<Cuenta>> getUsuarioById(@PathVariable("id") Long idUsuario) {
+        Cliente<Cuenta> usuario = usuarioService.getUsuarioById(idUsuario);
         if (usuario == null) {
-            return new ResponseEntity<Usuario>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Cliente<Cuenta>>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
+        return new ResponseEntity<Cliente<Cuenta>>(usuario, HttpStatus.OK);
     }
 
     @PostMapping("/usuario")

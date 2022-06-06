@@ -8,8 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+
 import javax.persistence.Table;
 
 @Entity
@@ -31,7 +30,15 @@ public class Usuario {
     private String estadoUsuario;
     private String estadoLaboral;
 
-    // relacion con la clase cuenta para generar el JSON correctamente
+    // Sobreescritura de ToString
+    @Override
+    public String toString() {
+        return "Usuario [apellidoUsuario=" + apellidoUsuario + ", ciUsuario=" + ciUsuario
+                + ", dirrecionDomicilioUsuario=" + dirrecionDomicilioUsuario + ", edadUsuario=" + edadUsuario
+                + ", estadoLaboral=" + estadoLaboral + ", estadoUsuario=" + estadoUsuario + ", fechaNacimiento="
+                + fechaNacimiento + ", idUsuario=" + idUsuario + ", nombreUsuario=" + nombreUsuario + ", sexoUsuario="
+                + sexoUsuario + "]";
+    }
 
     public Long getIdUsuario() {
         return idUsuario;
