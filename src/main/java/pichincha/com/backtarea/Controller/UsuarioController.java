@@ -1,6 +1,5 @@
 package pichincha.com.backtarea.Controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import pichincha.com.backtarea.Entity.Cliente;
 import pichincha.com.backtarea.Entity.Cuenta;
 import pichincha.com.backtarea.Entity.Usuario;
+import pichincha.com.backtarea.NullFoundException.UsuarioServiceException;
 import pichincha.com.backtarea.Service.UsuarioService;
 
 @RestController
@@ -26,7 +26,8 @@ public class UsuarioController {
     }
 
     @GetMapping("/usuario/{id}")
-    public ResponseEntity<Cliente<Cuenta>> getUsuarioById(@PathVariable("id") Long idUsuario) {
+    public ResponseEntity<Cliente<Cuenta>> getUsuarioById(@PathVariable("id") Long idUsuario)
+            throws UsuarioServiceException {
         Cliente<Cuenta> usuario = usuarioService.getUsuarioById(idUsuario);
         if (usuario == null) {
             return new ResponseEntity<Cliente<Cuenta>>(HttpStatus.NOT_FOUND);
@@ -35,7 +36,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/usuario")
-    public ResponseEntity<String> createUsuario(@RequestBody Usuario usuario) {
+    public ResponseEntity<String> createUsuario(@RequestBody Usuario usuario) throws UsuarioServiceException {
         Usuario usuarioCreated = usuarioService.createUsuario(usuario);
         if (usuarioCreated == null) {
             return new ResponseEntity<String>("Error con los datos ingresados!", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -46,7 +47,8 @@ public class UsuarioController {
     }
 
     @PutMapping("/usuario/{id}")
-    public ResponseEntity<String> updateUsuario(@PathVariable("id") Long idUsuario, @RequestBody Usuario usuario) {
+    public ResponseEntity<String> updateUsuario(@PathVariable("id") Long idUsuario, @RequestBody Usuario usuario)
+            throws UsuarioServiceException {
         Usuario usuarioUpdated = usuarioService.updateUsuario(idUsuario, usuario);
         if (usuarioUpdated == null) {
             return new ResponseEntity<String>("Error al actualizar", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -56,7 +58,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/usuario/{id}")
-    public HttpStatus deleteUsuarioById(@PathVariable("id") Long idUsuario) {
+    public HttpStatus deleteUsuarioById(@PathVariable("id") Long idUsuario) throws UsuarioServiceException {
         usuarioService.eliminarUsuarioPorId(idUsuario);
         return HttpStatus.OK;
     }

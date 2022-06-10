@@ -101,14 +101,19 @@ public class Usuario {
     }
 
     public void setEdadUsuario() {
-        Date newDate = new Date();
-        Calendar calendar1 = new GregorianCalendar();
-        calendar1.setTime(newDate);
+        try {
+            Date newDate = new Date();
+            Calendar calendar1 = new GregorianCalendar();
+            calendar1.setTime(newDate);
 
-        Calendar calendar2 = new GregorianCalendar();
-        calendar2.setTime(this.fechaNacimiento);
+            Calendar calendar2 = new GregorianCalendar();
+            calendar2.setTime(this.fechaNacimiento);
 
-        this.edadUsuario = calendar1.get(Calendar.YEAR) - calendar2.get(Calendar.YEAR);
+            this.edadUsuario = calendar1.get(Calendar.YEAR) - calendar2.get(Calendar.YEAR);
+        } catch (Exception e) {
+
+            throw new RuntimeException(e);
+        }
     }
 
     public String getEstadoUsuario() {

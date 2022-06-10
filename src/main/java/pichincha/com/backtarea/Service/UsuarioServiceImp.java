@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import pichincha.com.backtarea.Entity.Cliente;
 import pichincha.com.backtarea.Entity.Cuenta;
 import pichincha.com.backtarea.Entity.Usuario;
+import pichincha.com.backtarea.NullFoundException.UsuarioServiceException;
+import pichincha.com.backtarea.NullFoundException.UsuarioServiceNullException;
 import pichincha.com.backtarea.Repository.CuentaRepository;
 import pichincha.com.backtarea.Repository.UsuarioRepository;
 
@@ -23,64 +25,80 @@ public class UsuarioServiceImp implements UsuarioService {
     CuentaRepository cuentaRepository;
 
     public List<Usuario> getAll() {
-        List<Usuario> listaUsuarios = usuarioRepository.findAll();
-        return listaUsuarios;
+        try {
+            List<Usuario> listaUsuarios = usuarioRepository.findAll();
+            return listaUsuarios;
+        } catch (UsuarioServiceNullException e) {
+            // e.printStackTrace();
+            throw new UsuarioServiceNullException("No se pudo obtener la lista de usuarios");
+        }
+
     }
 
-    public void eliminarUsuarioPorId(Long idUsuario) {
+    public void eliminarUsuarioPorId(Long idUsuario) throws UsuarioServiceException {
         try {
             usuarioRepository.deleteById(idUsuario);
         } catch (Exception e) {
             e.printStackTrace();
+            throw new UsuarioServiceException("Error al eliminar el usuario por id:" + idUsuario + "!");
         }
     }
 
-    public Usuario createUsuario(Usuario usuario) {
+    public Usuario createUsuario(Usuario usuario) throws UsuarioServiceException {
         try {
             Optional<Usuario> usuarioRepetido = usuarioRepository.findByCiUsuario(usuario.getCiUsuario());
 
             if (usuarioRepetido.isPresent()) {
-                return null;
+                throw new UsuarioServiceException("El usuario con CI: " + usuario.getCiUsuario() + " e ID: "
+                        + usuario.getIdUsuario() + "ya existe!");
             }
             usuario.setEdadUsuario();
             Usuario usuarioCreated = usuarioRepository.save(usuario);
             return usuarioCreated;
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new UsuarioServiceException(
+                    "Error al crear el usuario con CI: " + usuario.getCiUsuario() + " por CI repetido!");
         }
-
     }
 
-    public Usuario updateUsuario(Long idUsuario, Usuario usuario) {
-        Optional<Usuario> usuarioEncontrado = usuarioRepository.findById(idUsuario);
+    public Usuario updateUsuario(Long idUsuario, Usuario usuario) throws UsuarioServiceException {
+        try {
+            Optional<Usuario> usuarioEncontrado = usuarioRepository.findById(idUsuario);
+            // Si el usuario existe utilizando isPresent() actualizo sus datos en la BD
+            if (usuarioEncontrado.isPresent()) {
+                usuario.setIdUsuario(idUsuario);// seteo el id del usuario a la entidad que llega, asi no crea una nueva
+                usuario.setEdadUsuario();
 
-        // Si el usuario existe utilizando isPresent() actualizo sus datos en la BD
-        if (usuarioEncontrado.isPresent()) {
-            usuario.setIdUsuario(idUsuario);// seteo el id del usuario a la entidad que llega, asi no crea una nueva
-            usuario.setEdadUsuario();
-
-            // guarda los datos actualizados en la BD utilizando JPA
-            Usuario usuarioUpdated = usuarioRepository.save(usuario);
-            return usuarioUpdated;
-        } else {
-            return null;
+                // guarda los datos actualizados en la BD utilizando JPA
+                Usuario usuarioUpdated = usuarioRepository.save(usuario);
+                return usuarioUpdated;
+            } else {
+                throw new UsuarioServiceException("El usuario con CI: " + usuario.getCiUsuario() + " no existe!");
+            }
+        } catch (UsuarioServiceNullException e) {
+            e.printStackTrace();
+            throw new UsuarioServiceNullException(
+                    "No se pudo encontrara de usuarios" + usuario.getCiUsuario() + " para modificar!");
         }
-
     }
 
-    public Cliente<Cuenta> getUsuarioById(Long idUsuario) {
-        Optional<Usuario> usuarioEncontrado = usuarioRepository.findById(idUsuario);
+    public Cliente<Cuenta> getUsuarioById(Long idUsuario) throws UsuarioServiceException {
+        try {
+            Optional<Usuario> usuarioEncontrado = usuarioRepository.findById(idUsuario);
+            if (usuarioEncontrado.isPresent()) {
+                ArrayList<Cuenta> listaCuentas = cuentaRepository.findByUsuarioIdUsuario(idUsuario);
 
-        if (usuarioEncontrado.isPresent()) {
-            ArrayList<Cuenta> listaCuentas = cuentaRepository.findByUsuarioIdUsuario(idUsuario);
-
-            Cliente<Cuenta> obj = new Cliente<Cuenta>();
-            obj.setEntities1(listaCuentas);
-            obj.setEntities2(usuarioEncontrado.get());
-            return obj;
-        } else {
-            return null;
+                Cliente<Cuenta> obj = new Cliente<Cuenta>();
+                obj.setEntities1(listaCuentas);
+                obj.setEntities2(usuarioEncontrado.get());
+                return obj;
+            } else {
+                throw new UsuarioServiceException("No se encontro el usuario con el id: " + idUsuario);
+            }
+        } catch (UsuarioServiceNullException e) {
+            e.printStackTrace();
+            throw new UsuarioServiceNullException("Problemas a buscar el usuario id:" + idUsuario);
         }
     }
 
