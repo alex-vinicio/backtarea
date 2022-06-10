@@ -50,7 +50,8 @@ public class CuentaController {
             throws CuentaServiceException, UsuarioServiceException {
         Cuenta cuentaCreated = cuentaService.createCuenta(cuenta);
         if (cuentaCreated == null) {
-            return new ResponseEntity<String>("Error con los datos ingresados de " + cuenta.getNumeroCuenta(),
+            return new ResponseEntity<String>(
+                    "Error con los datos ingresados, N° Cuenta repetida " + cuenta.getNumeroCuenta(),
                     HttpStatus.INTERNAL_SERVER_ERROR);
         } else {
             return new ResponseEntity<String>("cuenta Createda", HttpStatus.CREATED);

@@ -47,7 +47,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/usuario/{id}")
-    public ResponseEntity<String> updateUsuario(@PathVariable("id") Long idUsuario, @RequestBody Usuario usuario)
+    public ResponseEntity updateUsuario(@PathVariable("id") Long idUsuario, @RequestBody Usuario usuario)
             throws UsuarioServiceException {
         Usuario usuarioUpdated = usuarioService.updateUsuario(idUsuario, usuario);
         if (usuarioUpdated == null) {
