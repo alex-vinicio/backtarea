@@ -1,4 +1,4 @@
-package pichincha.com.backtarea.NullFoundException;
+package pichincha.com.backtarea.Exception;
 
 public class UsuarioServiceException extends Exception {
     public UsuarioServiceException(String message) {
@@ -7,4 +7,4 @@ public class UsuarioServiceException extends Exception {
 }
 
 // finali se valida si esta siendo leido un archivo, carga, lectura,
-//no aplicar TryCatsh, en definicion de variables
+// no aplicar TryCatsh, en definicion de variables

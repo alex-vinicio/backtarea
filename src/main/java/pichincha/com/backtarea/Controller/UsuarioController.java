@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import pichincha.com.backtarea.Entity.Cliente;
 import pichincha.com.backtarea.Entity.Cuenta;
 import pichincha.com.backtarea.Entity.Usuario;
-import pichincha.com.backtarea.NullFoundException.UsuarioServiceException;
+import pichincha.com.backtarea.Exception.UsuarioServiceException;
 import pichincha.com.backtarea.Service.UsuarioService;
 
 @RestController

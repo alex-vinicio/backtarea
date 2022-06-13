@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 
 import pichincha.com.backtarea.Repository.CuentaRepository;
 import pichincha.com.backtarea.Entity.Cuenta;
-import pichincha.com.backtarea.NullFoundException.CuentaServiceException;
-import pichincha.com.backtarea.NullFoundException.CuentaServiceNullException;
-import pichincha.com.backtarea.NullFoundException.UsuarioServiceException;
+import pichincha.com.backtarea.Exception.CuentaServiceException;
+import pichincha.com.backtarea.Exception.CuentaServiceNullException;
+import pichincha.com.backtarea.Exception.UsuarioServiceException;
 
 @Service
 public class CuentaServiceImp implements CuentaService {

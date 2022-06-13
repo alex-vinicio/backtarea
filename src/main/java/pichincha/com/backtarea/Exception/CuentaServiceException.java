@@ -1,4 +1,4 @@
-package pichincha.com.backtarea.NullFoundException;
+package pichincha.com.backtarea.Exception;
 
 public class CuentaServiceException extends Exception {
     public CuentaServiceException(String message) {

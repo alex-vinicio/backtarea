@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import pichincha.com.backtarea.Entity.Cuenta;
-import pichincha.com.backtarea.NullFoundException.CuentaServiceException;
-import pichincha.com.backtarea.NullFoundException.CuentaServiceNullException;
-import pichincha.com.backtarea.NullFoundException.CuentasServiceRootException;
-import pichincha.com.backtarea.NullFoundException.UsuarioServiceException;
+import pichincha.com.backtarea.Exception.CuentaServiceException;
+import pichincha.com.backtarea.Exception.CuentaServiceNullException;
+import pichincha.com.backtarea.Exception.CuentasServiceRootException;
+import pichincha.com.backtarea.Exception.UsuarioServiceException;
 import pichincha.com.backtarea.Service.CuentaService;
 
 @RestController
