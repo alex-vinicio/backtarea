@@ -25,8 +25,8 @@ public class UsuarioServiceImp implements UsuarioService {
     CuentaRepository cuentaRepository;
 
     public List<Usuario> getAll() {
+        List<Usuario> listaUsuarios = usuarioRepository.findAll();
         try {
-            List<Usuario> listaUsuarios = usuarioRepository.findAll();
             return listaUsuarios;
         } catch (UsuarioServiceNullException e) {
             // e.printStackTrace();
@@ -45,9 +45,8 @@ public class UsuarioServiceImp implements UsuarioService {
     }
 
     public Usuario createUsuario(Usuario usuario) throws UsuarioServiceException {
+        Optional<Usuario> usuarioRepetido = usuarioRepository.findByCiUsuario(usuario.getCiUsuario());
         try {
-            Optional<Usuario> usuarioRepetido = usuarioRepository.findByCiUsuario(usuario.getCiUsuario());
-
             if (usuarioRepetido.isPresent()) {
                 throw new UsuarioServiceException("El usuario con CI: " + usuario.getCiUsuario() + " e ID: "
                         + usuario.getIdUsuario() + "ya existe!");
@@ -63,8 +62,9 @@ public class UsuarioServiceImp implements UsuarioService {
     }
 
     public Usuario updateUsuario(Long idUsuario, Usuario usuario) throws UsuarioServiceException {
+        Optional<Usuario> usuarioEncontrado = usuarioRepository.findById(idUsuario);
         try {
-            Optional<Usuario> usuarioEncontrado = usuarioRepository.findById(idUsuario);
+
             // Si el usuario existe utilizando isPresent() actualizo sus datos en la BD
             if (usuarioEncontrado.isPresent()) {
                 usuario.setIdUsuario(idUsuario);// seteo el id del usuario a la entidad que llega, asi no crea una nueva
@@ -84,12 +84,12 @@ public class UsuarioServiceImp implements UsuarioService {
     }
 
     public Cliente<Cuenta> getUsuarioById(Long idUsuario) throws UsuarioServiceException {
+        Optional<Usuario> usuarioEncontrado = usuarioRepository.findById(idUsuario);
+        Cliente<Cuenta> obj = new Cliente<Cuenta>();
+        ArrayList<Cuenta> listaCuentas = cuentaRepository.findByUsuarioIdUsuario(idUsuario);
         try {
-            Optional<Usuario> usuarioEncontrado = usuarioRepository.findById(idUsuario);
             if (usuarioEncontrado.isPresent()) {
-                ArrayList<Cuenta> listaCuentas = cuentaRepository.findByUsuarioIdUsuario(idUsuario);
 
-                Cliente<Cuenta> obj = new Cliente<Cuenta>();
                 obj.setEntities1(listaCuentas);
                 obj.setEntities2(usuarioEncontrado.get());
                 return obj;

@@ -24,8 +24,9 @@ public class CuentaServiceImp implements CuentaService {
     UsuarioServiceImp usuarioService;
 
     public List<Cuenta> getAll() throws CuentaServiceNullException {
+        List<Cuenta> listaCuentas = cuentaRepository.findAll();
         try {
-            List<Cuenta> listaCuentas = cuentaRepository.findAll();
+
             if (!listaCuentas.isEmpty()) {
                 return listaCuentas;
             } else {
@@ -49,12 +50,12 @@ public class CuentaServiceImp implements CuentaService {
     }
 
     public Cuenta createCuenta(Cuenta cuenta) throws CuentaServiceException, UsuarioServiceException {
+        Optional<Cuenta> cuentaNumCuentaRep = cuentaRepository.findByNumeroCuenta(cuenta.getNumeroCuenta());
         try {
             if (usuarioService.getUsuarioById(cuenta.getUsuario().getIdUsuario()) == null) {
                 return null;
             } else {
                 try {
-                    Optional<Cuenta> cuentaNumCuentaRep = cuentaRepository.findByNumeroCuenta(cuenta.getNumeroCuenta());
                     if (cuentaNumCuentaRep.isPresent()) {
                         return null;
                     }
@@ -73,8 +74,9 @@ public class CuentaServiceImp implements CuentaService {
     }
 
     public Cuenta updateCuenta(Long idCuenta, Cuenta cuenta) {
+        Optional<Cuenta> cuentaEncontrada = cuentaRepository.findById(idCuenta);
         try {
-            Optional<Cuenta> cuentaEncontrada = cuentaRepository.findById(idCuenta);
+
             // Si el usuario existe utilizando isPresent() actualizo sus datos en la BD
             if (cuentaEncontrada.isPresent()) {
                 cuenta.setFechaCreacionCuenta(cuentaEncontrada.get().getFechaCreacionCuenta());
@@ -93,13 +95,12 @@ public class CuentaServiceImp implements CuentaService {
     }
 
     public Cuenta getCuentaById(Long idCuenta) throws CuentaServiceException {
+        Optional<Cuenta> cuentaEncontrada = cuentaRepository.findById(idCuenta);
         try {
-            Optional<Cuenta> cuentaEncontrada = cuentaRepository.findById(idCuenta);
-
             if (cuentaEncontrada.isPresent()) {
                 return cuentaEncontrada.get();
             } else {
-                throw new CuentaServiceException("Error, la Cuenta " + idCuenta + " no existe!");
+                return null;
             }
         } catch (CuentaServiceNullException e) {
             e.printStackTrace();
